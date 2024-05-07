@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BODMAS Quiz Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+        }
+        #question {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        #options {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .option {
+            margin: 0 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .option:hover {
+            background-color: #45a049;
+        }
+        #feedback {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        #score {
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>BODMAS Quiz Game</h1>
+
+    <div id="question"></div>
+    <div id="options">
+        <button class="option" onclick="checkAnswer(0)"></button>
+        <button class="option" onclick="checkAnswer(1)"></button>
+        <button class="option" onclick="checkAnswer(2)"></button>
+        <button class="option" onclick="checkAnswer(3)"></button>
+    </div>
+
+    <div id="feedback"></div>
+    <div id="score">Score: <span id="scoreValue">0</span></div>
+
+    <script>
+        const questions = [
+            { question: "Q1.What is the result of 2 + 3 * 4?", options: ["14", "20", "24", "9"], answerIndex: 0 },
+            { question: "Q2.What is the result of (5 + 3) / 2?", options: ["4", "4.5", "5", "6"], answerIndex: 0 },
+            { question: "Q3.What is the result of 2^3 - 1?", options: ["6", "7", "8", "9"], answerIndex: 1 },
+            { question: "Q4.What is the result of 10 / (2 + 3)?", options: ["2", "2.5", "4", "5"], answerIndex: 0 },
+            { question: "Q5.NPC's initial health: x, Damage dealt: y, Health potion restores: z, Curse drains: p% every second for t seconds. What is the resulting health of the NPC after the described actions?", options: ["NPC= x - y + z - p% * x * t)", "NPC= (x - y + z - p%) * t", "NPC= x - y + z - p% - t)", "x - y + z - ((p * x) * t)"], answerIndex: 0 }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function displayQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            document.getElementById("question").textContent = currentQuestion.question;
+            currentQuestion.options.forEach((option, index) => {
+                document.getElementsByClassName("option")[index].textContent = option;
+            });
+        }
+
+        function checkAnswer(optionIndex) {
+            const currentQuestion = questions[currentQuestionIndex];
+            if (optionIndex === currentQuestion.answerIndex) {
+                document.getElementById("feedback").textContent = "Correct!";
+                score++;
+            } else {
+                document.getElementById("feedback").textContent = "Incorrect!";
+            }
+            document.getElementById("scoreValue").textContent = score;
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                displayQuestion();
+            } else {
+                endGame();
+            }
+        }
+
+        function endGame() {
+            document.getElementById("question").textContent = "Quiz completed!";
+            document.getElementById("options").style.display = "none";
+            document.getElementById("feedback").textContent = "Your final score is: " + score;
+        }
+
+        displayQuestion();
+    </script>
+</body>
+</html>
